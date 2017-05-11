@@ -242,8 +242,8 @@ public:
         sDB2Manager.Map2ZoneCoordinates(zoneId, zoneX, zoneY);
 
         Map const* map = object->GetMap();
-        float groundZ = map->GetHeight(object->GetPhaseMask(), object->GetPositionX(), object->GetPositionY(), MAX_HEIGHT);
-        float floorZ = map->GetHeight(object->GetPhaseMask(), object->GetPositionX(), object->GetPositionY(), object->GetPositionZ());
+        float groundZ = map->GetHeight(object->GetPhases(), object->GetPositionX(), object->GetPositionY(), MAX_HEIGHT);
+        float floorZ = map->GetHeight(object->GetPhases(), object->GetPositionX(), object->GetPositionY(), object->GetPositionZ());
 
         GridCoord gridCoord = Trinity::ComputeGridCoord(object->GetPositionX(), object->GetPositionY());
 
@@ -1351,7 +1351,7 @@ public:
             return false;
         }
 
-        Item* item = playerTarget->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId), GuidSet(), bonusListIDs);
+        Item* item = playerTarget->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId), GuidSet(), 0, bonusListIDs);
 
         // remove binding (let GM give it to another player later)
         if (player == playerTarget)
@@ -1420,7 +1420,7 @@ public:
                 InventoryResult msg = playerTarget->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itr->second.GetId(), 1);
                 if (msg == EQUIP_ERR_OK)
                 {
-                    Item* item = playerTarget->StoreNewItem(dest, itr->second.GetId(), true, {}, GuidSet(), bonusListIDs);
+                    Item* item = playerTarget->StoreNewItem(dest, itr->second.GetId(), true, {}, GuidSet(), 0, bonusListIDs);
 
                     // remove binding (let GM give it to another player later)
                     if (player == playerTarget)
